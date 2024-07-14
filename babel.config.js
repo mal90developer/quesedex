@@ -13,6 +13,7 @@ module.exports = {
           '@components': './src/components',
         }
       }
-    ]
+    ],
+    ['@babel/plugin-transform-private-methods', { loose: true }]
   ]
 };
