@@ -1,17 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 type Props = {
   title: string;
   description: string;
+  id: string;
+  onPressCard: (id: string) => void;
 };
 
-export const Card: React.FC<Props> = ({title, description}) => {
+export const Card: React.FC<Props> = ({title, description, id, onPressCard}) => {
+
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
+      <Pressable onPress={() => onPressCard(id)}>
+        <Text style={styles.title}>{title}</Text>
+        <Image style={styles.image} source={{ uri: `./assets/img/${title}.jpg` }}></Image>
+        <Text style={styles.description}>{description}</Text>
+      </Pressable>
     </View>
   )
 
@@ -19,23 +25,26 @@ export const Card: React.FC<Props> = ({title, description}) => {
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
     backgroundColor: '#fff',
     borderRadius: 5,
     padding: 15,
-    margin: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    margin: 5,
     elevation: 5,
   },
   title: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
-    marginVertical: 10,
+    textAlign: 'center',
+    marginBottom: 5
   },
   description: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 13,
+    marginTop: 5
+  },
+  image: {
+    width: '100%',
+    height: 120,
+    borderRadius: 10
   },
 });

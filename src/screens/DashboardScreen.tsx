@@ -1,54 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Button, FlatList } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'navigation/AppNavigator';
 import { Card } from 'components/Card';
+import { getCheeseById, getCheeses } from 'services/CheeseService';
+import { Cheese } from 'interfaces/Cheese';
+import { colors } from 'styles/base/colors';
 
-type DashboardNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Logo'
->;
+type navigationProp = StackNavigationProp<RootStackParamList>;
 
 type Props = {
-  navigation: DashboardNavigationProp;
+  navigation: navigationProp;
 };
 
 const DashboardScreen: React.FC<Props> = ({navigation}) => {
 
-  const data = [
-    { id: '1', title: 'Prueba 1', description: 'Descripción 1' },
-    { id: '2', title: 'Prueba 2', description: 'Descripción 2' },
-    { id: '3', title: 'Prueba 3', description: 'Descripción 3' },
-    { id: '4', title: 'Prueba 4', description: 'Descripción 4' },
-    { id: '5', title: 'Prueba 5', description: 'Descripción 5' },
-    { id: '6', title: 'Prueba 6', description: 'Descripción 6' },
-    { id: '7', title: 'Prueba 7', description: 'Descripción 7' },
-    { id: '8', title: 'Prueba 8', description: 'Descripción 8' },
-    { id: '9', title: 'Prueba 9', description: 'Descripción 9' },
-    { id: '10', title: 'Prueba 10', description: 'Descripción 10' },
-    { id: '11', title: 'Prueba 11', description: 'Descripción 11' },
-    { id: '12', title: 'Prueba 12', description: 'Descripción 12' },
-    { id: '13', title: 'Prueba 13', description: 'Descripción 13' },
-    { id: '14', title: 'Prueba 14', description: 'Descripción 14' },
-  ];
+  const [cheeses, setCheeses] = useState<Cheese[]>();
+  const [cheese, setCheese] = useState<Cheese>();
+
+  useEffect(() => {
+    getCheeses().then((res) => setCheeses(res.data));
+  }, []);
+
+  const handlePressCard = (id: string) => {
+    getCheeseById(id).then((res) => {
+      setCheese(res.data);
+      if (cheese) {
+        navigation.navigate('CardDetails', {cheese: cheese});
+      }
+    });
+  }
+  
   return (
     <View style={styles.container}>
+      <h1>Test</h1>
       <FlatList 
-        data={data} 
+        data={cheeses} 
         renderItem={({item}) => (
-          <View>
-            <Card title={item.title} description={item.description}></Card>
-          </View>
+          <Card 
+            title={item.name} 
+            description={item.historyAndTradition} 
+            id={item.id} 
+            onPressCard={handlePressCard}>
+          </Card>
         )}
         keyExtractor={(item) => item.id}
         numColumns={2}
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}>
       </FlatList>
-      <Button
+      {/* <Button
         title="Go back to Home"
         onPress={() => navigation.navigate('Logo')}
-      />
+      /> */}
     </View>
   )
 }
@@ -56,15 +60,13 @@ const DashboardScreen: React.FC<Props> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FF7B00',
-    alignItems: 'center',
+    backgroundColor: colors.yellow700,
     justifyContent: 'center',
+    paddingVertical: 40,
+    paddingHorizontal: 10
   },
   list: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40
-  },
+  }
 });
 
 export default DashboardScreen;
