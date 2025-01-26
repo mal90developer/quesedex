@@ -33,7 +33,7 @@ const DashboardScreen: React.FC<Props> = ({navigation}) => {
   
   return (
     <View style={styles.container}>
-      <h1>Test</h1>
+      <h1>Quesedex</h1>
       <FlatList 
         data={cheeses} 
         renderItem={({item}) => (

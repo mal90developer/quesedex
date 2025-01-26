@@ -25,11 +25,6 @@ module.exports = {
         safe: false,
         allowUndefined: true
       }
-    ],
-    [
-      'react-css-modules', {
-        'option': 'value'
-      }
     ]
   ]
 };

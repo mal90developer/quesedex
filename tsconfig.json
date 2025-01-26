@@ -1,11 +1,17 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
-  "baseUrl": ".",
-  "paths": {
-    "*": ["src/*"],
-    "tests": ["tests/*"],
-    "@components/*": ["src/components/*"]
-  }
-  }
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"],
+      "tests": ["tests/*"],
+      "@components/*": ["src/components/*"]
+    },
+    "types": ["react-native", "react"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "declarations.d.ts"
+  ]
 }
